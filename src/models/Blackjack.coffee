@@ -1,6 +1,7 @@
 class window.Blackjack extends Backbone.Model
-  initialize: -> 
-    @set 'deck', deck = new Deck()
+  initialize: (param)-> 
+    # @set 'deck', deck = new Deck()
+    @set 'deck', param.deck
     @dealPlayer(@get 'deck')
     @dealDealer(@get 'deck')
     @on 'hit', => @hit(@get 'playerHand') unless @gameOver
@@ -25,6 +26,7 @@ class window.Blackjack extends Backbone.Model
         @endGame('You Win!')
 
       else 
+        @get('dealerHand').find( (card) -> if !card.get('revealed') then true ).flip()
         @endGame('Busted!')
       #start new game
 

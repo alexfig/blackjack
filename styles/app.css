@@ -8,16 +8,43 @@
 }
 
 .covered {
-  background-color: black;
+
 }
 
 .hand {
   overflow: auto;
 }
 
-.dealtCard{
-  @-webkit-animation: dealCard 1s;
+#game {
+  top: 50px;
 }
+
+.dealtCard{
+  -webkit-animation: dealCard 0.5s ;
+}
+
 @-webkit-keyframes dealCard {
-    from {top: 200px;}
-    to {top: 0px;}
+    0% {-webkit-transform: translateY(-50px)}
+    100% {-webkit-transform: translateY(0px)}
+}
+
+.reveal {
+  -webkit-animation: reveal .6s linear;
+}
+.uncover{
+  -webkit-animation: uncover .6s linear;
+}
+@-webkit-keyframes reveal {
+  0% {-webkit-transform: rotateY(0deg)}
+  100% {-webkit-transform: rotateY(90deg)}
+}
+
+
+@-webkit-keyframes uncover {
+  0% {-webkit-transform: rotateY(90deg)}
+  100% {-webkit-transform: translateY(0deg)}
+}
+
+#gameStatus {
+  top: 10px;
+}

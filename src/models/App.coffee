@@ -3,14 +3,19 @@
 class window.App extends Backbone.Model
   initialize: ->
     @set 'gameOver', false
-    @set 'gameModel' , new Blackjack()
+    @deck = new Deck()
+    @set 'gameModel' , new Blackjack({deck: @deck})
     @on('change', => @resetEndGameListener())
 
     @get('gameModel').on('endGame', (status)=> 
       @set 'gameOver', status
     )
 
-    @on('startNewGame', => @set('gameModel',  new Blackjack() ))
+    @on('startNewGame', => 
+      @set('gameOver',false)
+      if @deck.length < 20 then @deck = new Deck();
+      @set('gameModel',  new Blackjack({deck: @deck}) )
+    )
 
 
 

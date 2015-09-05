@@ -1,16 +1,20 @@
 class window.AppView extends Backbone.View
   initialize: ->
+    @blackJackView = new BlackjackView(model: @model.get('gameModel'))
     @render()
-    @model.on 'all', => @render()
+    @model.on 'change', => @render()
+    @model.on 'change:gameModel', => @blackJackView = new BlackjackView(model: @model.get('gameModel'))
 
   events :
     'click #newGame' : 'startNewGame'
 
   render: ->
     @$el.empty()
-    @$el.append(new BlackjackView(model: @model.get('gameModel')).render() )
+    @$el.append(@blackJackView.render() )
     if @model.get('gameOver') 
-      @$el.append('<span id="gameStatus">' + @model.get('gameOver') + '</span>')
-      @$el.append('<button id="newGame">New Game</button>')
+      @$el.prepend('<span id="gameStatus">' + @model.get('gameOver') + '</span>')
+      @$el.prepend('<button id="newGame">New Game</button>')
 
-  startNewGame: -> @model.trigger 'startNewGame'
+  startNewGame: -> 
+    window.cardsOnScreen = {}
+    @model.trigger 'startNewGame'

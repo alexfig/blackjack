@@ -3,13 +3,15 @@ class window.BlackjackHandView extends Backbone.View
     @name = params.name;
     @hand = params.hand;
     @model.on 'hit stand', => @render()
-    @model.on 'change', =>@render()
-    @hand.on 'add', =>@render()
+    #@listenToOnce(@model,'endGame', =>@render())
+    #@hand.on 'add', =>@render()
+    @handView = new HandView(collection:@hand);
     @render()
 
   render: ->
+    @handView.render();
     @$el.children().detach()
     @$el.append('<h2>'+@name+'(<span class="score"></span>)</h2>').addClass(@name)
-    @$el.append new HandView(collection:@hand).render().
+    @$el.append @handView.$el
     @$('.score').text @model.getHighestScore(@hand)
 
