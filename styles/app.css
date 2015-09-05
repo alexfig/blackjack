@@ -1,9 +1,9 @@
 .card {
   float: left;
   border: solid 1px black;
-  width: 100px;
+  width: 120px;
   border-radius: 5px;
-  height: 140px;
+  height: 170px;
   margin-right: 20px;
 }
 
@@ -14,3 +14,10 @@
 .hand {
   overflow: auto;
 }
+
+.dealtCard{
+  @-webkit-animation: dealCard 1s;
+}
+@-webkit-keyframes dealCard {
+    from {top: 200px;}
+    to {top: 0px;}

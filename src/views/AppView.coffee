@@ -1,20 +1,16 @@
 class window.AppView extends Backbone.View
-  template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
-    <div class="player-hand-container"></div>
-    <div class="dealer-hand-container"></div>
-  '
-
-  events:
-    'click .hit-button': -> @model.get('playerHand').hit()
-    'click .stand-button': -> @model.get('playerHand').stand()
-
   initialize: ->
     @render()
+    @model.on 'all', => @render()
+
+  events :
+    'click #newGame' : 'startNewGame'
 
   render: ->
-    @$el.children().detach()
-    @$el.html @template()
-    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
-    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$el.empty()
+    @$el.append(new BlackjackView(model: @model.get('gameModel')).render() )
+    if @model.get('gameOver') 
+      @$el.append('<span id="gameStatus">' + @model.get('gameOver') + '</span>')
+      @$el.append('<button id="newGame">New Game</button>')
 
+  startNewGame: -> @model.trigger 'startNewGame'

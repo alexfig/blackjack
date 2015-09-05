@@ -2,7 +2,16 @@
 # of containing the game logic directly.
 class window.App extends Backbone.Model
   initialize: ->
-    @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
+    @set 'gameOver', false
+    @set 'gameModel' , new Blackjack()
+    @on('change', => @resetEndGameListener())
 
+    @get('gameModel').on('endGame', (status)=> 
+      @set 'gameOver', status
+    )
+
+    @on('startNewGame', => @set('gameModel',  new Blackjack() ))
+
+
+
+  resetEndGameListener: -> @get('gameModel').on('endGame', (status) => @set 'gameOver', status )
